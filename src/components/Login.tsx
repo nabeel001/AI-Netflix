@@ -2,6 +2,11 @@ import { useRef, useState } from "react";
 import Header from "./Header";
 import { validateEmailAndPassword } from "../utils/validate";
 import bg_image from "./../assets/bg-image.jpg";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setSignInForm] = useState<boolean>(true);
@@ -19,7 +24,42 @@ const Login = () => {
       email.current?.value,
       password.current?.value
     );
-    setErrorMessage(errorMessage);
+    if (errorMessage) {
+      setErrorMessage(errorMessage);
+    } else {
+      if (isSignInForm) {
+        signInWithEmailAndPassword(
+          auth,
+          email.current!.value,
+          password.current!.value
+        )
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+          });
+      } else {
+        createUserWithEmailAndPassword(
+          auth,
+          email.current!.value,
+          password.current!.value
+        )
+          .then((userCredential) => {
+            // Signed up
+            const user = userCredential.user;
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+          });
+      }
+    }
   };
 
   return (
