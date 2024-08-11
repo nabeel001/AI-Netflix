@@ -1,39 +1,9 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
 import logo from "./../assets/logo.svg";
 import userIcon from "./../assets/user-icon.jpg";
-import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../utils/store/appStore";
-import { useEffect } from "react";
-import { addUser, removeUser } from "../utils/store/userSlice";
+import useHeader from "../hooks/useHeader";
 
 const Header = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.user);
-
-  useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { uid, email, displayName } = user;
-        dispatch(addUser({ uid: uid, name: displayName!, email: email! }));
-        navigate("/browse");
-      } else {
-        dispatch(removeUser());
-        navigate("/");
-      }
-    });
-
-    return () => unSubscribe();
-  }, [dispatch, navigate]);
-
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {})
-      .catch(() => {
-        navigate("/error");
-      });
-  };
+  const { user, handleSignOut } = useHeader();
 
   return (
     <div className="absolute py-3 px-10 w-screen bg-gradient-to-b from-black z-10 flex justify-between">

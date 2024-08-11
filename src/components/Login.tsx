@@ -1,80 +1,17 @@
-import { useRef, useState } from "react";
 import Header from "./Header";
-import { validateEmailAndPassword } from "../utils/validate";
 import bg_image from "./../assets/bg-image.jpg";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import { auth } from "../utils/firebase";
-import { useAppDispatch } from "../utils/store/appStore";
-import { addUser } from "../utils/store/userSlice";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
-  const [isSignInForm, setSignInForm] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>();
-  const dispatch = useAppDispatch();
-
-  const name = useRef<HTMLInputElement>(null);
-  const email = useRef<HTMLInputElement>(null);
-  const password = useRef<HTMLInputElement>(null);
-
-  const toggleFormType = () => {
-    setSignInForm(!isSignInForm);
-  };
-
-  const handleFormSubmit = () => {
-    const errorMessage = validateEmailAndPassword(
-      email.current?.value,
-      password.current?.value
-    );
-    if (errorMessage) {
-      setErrorMessage(errorMessage);
-    } else {
-      if (isSignInForm) {
-        signInWithEmailAndPassword(
-          auth,
-          email.current!.value,
-          password.current!.value
-        )
-          .then(() => {})
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setErrorMessage(errorCode + ": " + errorMessage);
-          });
-      } else {
-        if (!name.current?.value) {
-          setErrorMessage("Enter a Valid Name!");
-          return;
-        }
-        createUserWithEmailAndPassword(
-          auth,
-          email.current!.value,
-          password.current!.value
-        )
-          .then((userCredential) => {
-            const user = userCredential.user;
-            updateProfile(user, { displayName: name.current?.value })
-              .then(() => {
-                const { uid, email, displayName } = auth.currentUser!;
-                dispatch(
-                  addUser({ uid: uid, name: displayName!, email: email! })
-                );
-              })
-              .catch((error) => {
-                setErrorMessage(error.message);
-              });
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setErrorMessage(errorCode + ": " + errorMessage);
-          });
-      }
-    }
-  };
+  const {
+    name,
+    emailId,
+    password,
+    isSignInForm,
+    errorMessage,
+    toggleFormType,
+    handleFormSubmit,
+  } = useLogin();
 
   return (
     <div>
@@ -100,7 +37,7 @@ const Login = () => {
           />
         )}
         <input
-          ref={email}
+          ref={emailId}
           type="email"
           placeholder="Email Address"
           className="p-3 my-2 w-full rounded-lg bg-gray-800"

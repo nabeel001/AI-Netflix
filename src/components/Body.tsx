@@ -1,6 +1,6 @@
 import Login from "./Login";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Browse from "./Browse";
+import Browse from "./browse/Browse";
 
 const Body = () => {
   const appRouter = createBrowserRouter([
