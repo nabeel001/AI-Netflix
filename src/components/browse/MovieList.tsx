@@ -13,9 +13,9 @@ const MovieList = (props: MovieListPropsType) => {
       <h1 className="text-2xl py-4 text-white">{title}</h1>
       <div className="flex overflow-x-scroll no-scrollbar">
         <div className="flex">
-          {movies.map((movie) => (
+          {movies.map((movie, id) => (
             <MovieCard
-              key={movie.id}
+              key={id + "_" + movie.id}
               posterPath={movie.poster_path}
               title={movie.title}
             />
