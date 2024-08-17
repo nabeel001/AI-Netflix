@@ -6,7 +6,7 @@ const Header = () => {
   const { user, handleSignOut } = useHeader();
 
   return (
-    <div className="absolute py-3 px-10 w-screen bg-gradient-to-b from-black z-10 flex justify-between">
+    <div className="absolute py-3 px-10 w-full bg-gradient-to-b from-black z-10 flex justify-between">
       <img src={logo} alt="logo" className="w-40" />
       {user && (
         <div className="flex space-x-2">

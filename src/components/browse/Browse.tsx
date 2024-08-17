@@ -1,35 +1,15 @@
-import { useEffect } from "react";
+import useBrowse from "../../hooks/useBrowse";
 import Header from "../Header";
-import {
-  TMDB_API_OPTIONS,
-  TMDB_NOW_PLAYING_MOVIES_API_URL,
-} from "../../utils/constants";
-import axios from "axios";
-import { useAppDispatch } from "../../utils/store/appStore";
-import { addNowPlayingMovies } from "../../utils/store/moviesSlice";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
 
 const Browse = () => {
-  const dispatch = useAppDispatch();
-
-  const getNowPlayingMoviesData = async () => {
-    try {
-      const { data } = await axios.get(
-        TMDB_NOW_PLAYING_MOVIES_API_URL,
-        TMDB_API_OPTIONS
-      );
-      dispatch(addNowPlayingMovies({ nowPlayingMovies: data.results }));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getNowPlayingMoviesData();
-  }, []);
-
+  useBrowse();
   return (
     <div>
       <Header />
+      <MainContainer />
+      <SecondaryContainer />
     </div>
   );
 };
