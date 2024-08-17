@@ -12,7 +12,7 @@ const VideoContainer = (props: VideoContainerPropsType) => {
     <div>
       <iframe
         className="w-full aspect-video"
-        src={`http://www.youtube.com/embed/${trailerVideoKey}?&controls=0&autoplay=1&mute=1&playlist=${trailerVideoKey}&loop=1`}
+        src={`https://www.youtube.com/embed/${trailerVideoKey}?&controls=0&autoplay=1&mute=1&playlist=${trailerVideoKey}&loop=1`}
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       ></iframe>
