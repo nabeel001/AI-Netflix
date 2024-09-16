@@ -1,6 +1,7 @@
 import Header from "./Header";
 import bg_image from "./../assets/bg-image.jpg";
 import useLogin from "../hooks/useLogin";
+import Footer from "./Footer";
 
 const Login = () => {
   const {
@@ -23,7 +24,7 @@ const Login = () => {
       />
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="absolute w-1/4 bg-black my-36 mx-auto left-0 right-0 p-10 rounded-lg text-white opacity-85"
+        className="absolute w-5/6 md:w-1/4 bg-black my-36 mx-auto left-0 right-0 p-10 rounded-lg text-white opacity-85"
       >
         <h1 className="font-bold text-3xl my-2">
           {isSignInForm ? "Sign In" : "Sign Up"}
@@ -40,13 +41,13 @@ const Login = () => {
           ref={emailId}
           type="email"
           placeholder="Email Address"
-          className="p-3 my-2 w-full rounded-lg bg-gray-800"
+          className="p-3 my-2 w-full rounded-lg bg-gray-800 outline-none focus:outline-red-600"
         />
         <input
           ref={password}
           type="password"
           placeholder="Password"
-          className="p-3 my-2 w-full rounded-lg bg-gray-800"
+          className="p-3 my-2 w-full rounded-lg bg-gray-800 outline-none focus:outline-red-600"
         />
         {errorMessage && (
           <p className="text-red-600 text-xs whitespace-pre-line">
@@ -69,6 +70,7 @@ const Login = () => {
           </span>
         </p>
       </form>
+      <Footer />
     </div>
   );
 };

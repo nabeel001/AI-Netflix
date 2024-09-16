@@ -4,6 +4,7 @@ export interface User {
   uid: string;
   name: string;
   email: string;
+  idToken: string;
 }
 
 export interface UserState {
@@ -20,12 +21,18 @@ const userSlice = createSlice({
   reducers: {
     addUser: (
       state,
-      action: PayloadAction<{ uid: string; name: string; email: string }>
+      action: PayloadAction<{
+        uid: string;
+        name: string;
+        email: string;
+        idToken: string;
+      }>
     ) => {
       const user: User = {
         uid: action.payload.uid,
         name: action.payload.name,
         email: action.payload.email,
+        idToken: action.payload.idToken,
       };
       state.user = user;
     },

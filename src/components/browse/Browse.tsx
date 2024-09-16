@@ -1,15 +1,26 @@
 import useBrowse from "../../hooks/useBrowse";
 import Header from "../Header";
-import MainContainer from "./MainContainer";
-import SecondaryContainer from "./SecondaryContainer";
+import AskGPT from "./gpt/AskGPT";
+import MainContainer from "./main/MainContainer";
+import SecondaryContainer from "./secondary/SecondaryContainer";
+import MovieModal from "../MovieModal";
+import Footer from "../Footer";
 
 const Browse = () => {
-  useBrowse();
+  const { showAskGpt } = useBrowse();
   return (
     <div>
       <Header />
-      <MainContainer />
-      <SecondaryContainer />
+      {showAskGpt ? (
+        <AskGPT />
+      ) : (
+        <>
+          <MainContainer />
+          <SecondaryContainer />
+        </>
+      )}
+      <MovieModal />
+      <Footer />
     </div>
   );
 };

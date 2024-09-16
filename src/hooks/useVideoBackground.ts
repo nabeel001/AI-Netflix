@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../utils/store/appStore";
 import axios from "axios";
-import { TMDB_API } from "../utils/constants";
-import { Video, addTrailerVideo } from "../utils/store/moviesSlice";
+import { ERROR_MESSAGE, MOVIE_TRAILER_URL } from "../utils/constants";
+import { addTrailerVideo } from "../utils/store/moviesSlice";
+import { toast } from "react-toastify";
 
 interface useVideoBackgroundPropsType {
   movieId: number;
@@ -17,21 +18,29 @@ const useVideoBackground = (
 ): useVideoBackgroundReturnType => {
   const { movieId } = props;
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.user);
   const trailerVideo = useAppSelector((state) => state.movies?.trailerVideo);
 
-  const getMovieVideos = async () => {
-    const { data } = await axios.get(
-      TMDB_API.VIDEOS_URL(movieId),
-      TMDB_API.API_OPTIONS
-    );
-    const trailerVideos = data.results.filter(
-      (video: Video) => video.type === "Trailer"
-    );
-    dispatch(addTrailerVideo({ trailerVideo: trailerVideos[0] }));
+  const getMovieTrailer = async () => {
+    try {
+      const { data: trailerVideo } = await axios.get(
+        MOVIE_TRAILER_URL(movieId),
+        {
+          headers: {
+            Authorization: `Bearer ${user?.idToken}`,
+            Accept: "application/json",
+          },
+        }
+      );
+      dispatch(addTrailerVideo({ trailerVideo: trailerVideo }));
+    } catch (error) {
+      toast.dismiss();
+      toast.error(ERROR_MESSAGE);
+    }
   };
 
   useEffect(() => {
-    if (movieId) getMovieVideos();
+    if (movieId) getMovieTrailer();
   }, [movieId]);
 
   return {

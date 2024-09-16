@@ -1,71 +1,101 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { TMDB_API } from "../utils/constants";
-import { useAppDispatch } from "../utils/store/appStore";
+import {
+  ERROR_MESSAGE,
+  NOW_PLAYING_MOVIES_URL,
+  POPULAR_MOVIES_URL,
+  TOP_RATED_MOVIES_URL,
+  UPCOMING_MOVIES_URL,
+} from "../utils/constants";
+import { useAppDispatch, useAppSelector } from "../utils/store/appStore";
 import {
   addNowPlayingMovies,
   addPopularMovies,
   addTopRatedMovies,
   addUpcomingMovies,
 } from "../utils/store/moviesSlice";
+import { toast } from "react-toastify";
 
-const useBrowse = () => {
+interface UseBrowseReturnType {
+  showAskGpt: boolean;
+}
+
+const useBrowse = (): UseBrowseReturnType => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.user);
+  const showAskGpt = useAppSelector((store) => store.gpt.showAskGpt);
 
-  const getNowPlayingMoviesData = async () => {
+  const API_OPTIONS = {
+    headers: {
+      Authorization: `Bearer ${user?.idToken}`,
+      Accept: "application/json",
+    },
+  };
+
+  const getNowPlayingMovies = async () => {
     try {
-      const { data } = await axios.get(
-        TMDB_API.NOW_PLAYING_MOVIES_URL,
-        TMDB_API.API_OPTIONS
+      const { data: nowPlaying } = await axios.get(
+        NOW_PLAYING_MOVIES_URL,
+        API_OPTIONS
       );
-      dispatch(addNowPlayingMovies({ nowPlayingMovies: data.results }));
+      dispatch(addNowPlayingMovies({ nowPlayingMovies: nowPlaying }));
     } catch (error) {
-      console.error(error);
+      toast.dismiss();
+      toast.error(ERROR_MESSAGE);
     }
   };
 
-  const getPopularMoviesData = async () => {
+  const getPopularMovies = async () => {
     try {
-      const { data } = await axios.get(
-        TMDB_API.POPULAR_MOVIES_URL,
-        TMDB_API.API_OPTIONS
+      const { data: popular } = await axios.get(
+        POPULAR_MOVIES_URL,
+        API_OPTIONS
       );
-      dispatch(addPopularMovies({ popularMovies: data.results }));
+      dispatch(addPopularMovies({ popularMovies: popular }));
     } catch (error) {
-      console.error(error);
+      toast.dismiss();
+      toast.error(ERROR_MESSAGE);
     }
   };
 
-  const getTopRatedMoviesData = async () => {
+  const getTopRatedMovies = async () => {
     try {
-      const { data } = await axios.get(
-        TMDB_API.TOP_RATED_MOVIES_URL,
-        TMDB_API.API_OPTIONS
+      const { data: topRated } = await axios.get(
+        TOP_RATED_MOVIES_URL,
+        API_OPTIONS
       );
-      dispatch(addTopRatedMovies({ topRatedMovies: data.results }));
+      dispatch(addTopRatedMovies({ topRatedMovies: topRated }));
     } catch (error) {
-      console.error(error);
+      toast.dismiss();
+      toast.error(ERROR_MESSAGE);
     }
   };
 
-  const getUpcomingMoviesData = async () => {
+  const getUpcomingMovies = async () => {
     try {
-      const { data } = await axios.get(
-        TMDB_API.UPCOMING_MOVIES_URL,
-        TMDB_API.API_OPTIONS
+      const { data: upcoming } = await axios.get(
+        UPCOMING_MOVIES_URL,
+        API_OPTIONS
       );
-      dispatch(addUpcomingMovies({ upcomingMovies: data.results }));
+      dispatch(addUpcomingMovies({ upcomingMovies: upcoming }));
     } catch (error) {
-      console.error(error);
+      toast.dismiss();
+      toast.error(ERROR_MESSAGE);
     }
   };
 
   useEffect(() => {
-    getNowPlayingMoviesData();
-    getPopularMoviesData();
-    getTopRatedMoviesData();
-    getUpcomingMoviesData();
-  }, []);
+    if (user) {
+      getNowPlayingMovies();
+      getPopularMovies();
+      getTopRatedMovies();
+      getUpcomingMovies();
+    }
+  }, [user]);
+
+  return {
+    showAskGpt,
+  };
 };
 
 export default useBrowse;

@@ -1,7 +1,6 @@
-import React from "react";
-import MovieList from "./MovieList";
-import { useAppSelector } from "../../utils/store/appStore";
-import { movieListTitles } from "../../utils/constants";
+import MovieList from "../../core/MovieList";
+import { useAppSelector } from "../../../utils/store/appStore";
+import { MOVIE_LIST_TITLES } from "../../../utils/constants";
 
 const SecondaryContainer = () => {
   const nowPlayingMovies = useAppSelector(
@@ -17,14 +16,17 @@ const SecondaryContainer = () => {
 
   return (
     <div className="bg-black pb-10">
-      <div className="-mt-36 pl-12 relative z-20">
+      <div className="md:-mt-28 md:pl-12 relative z-20">
         <MovieList
-          title={movieListTitles.NOW_PLAYING}
+          title={MOVIE_LIST_TITLES.NOW_PLAYING}
           movies={nowPlayingMovies}
         />
-        <MovieList title={movieListTitles.POPULAR} movies={popularMovies} />
-        <MovieList title={movieListTitles.TOP_RATED} movies={topRatedMovies} />
-        <MovieList title={movieListTitles.UPCOMING} movies={upcomingMovies} />
+        <MovieList title={MOVIE_LIST_TITLES.POPULAR} movies={popularMovies} />
+        <MovieList
+          title={MOVIE_LIST_TITLES.TOP_RATED}
+          movies={topRatedMovies}
+        />
+        <MovieList title={MOVIE_LIST_TITLES.UPCOMING} movies={upcomingMovies} />
       </div>
     </div>
   );

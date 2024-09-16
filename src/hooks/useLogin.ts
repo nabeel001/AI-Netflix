@@ -64,7 +64,15 @@ const useLogin = (): UseLoginReturnType => {
           );
           await updateProfile(user, { displayName: name.current?.value });
           const { uid, email, displayName } = auth.currentUser!;
-          dispatch(addUser({ uid: uid, name: displayName!, email: email! }));
+          const userIdToken = await auth.currentUser!.getIdToken();
+          dispatch(
+            addUser({
+              uid: uid,
+              name: displayName!,
+              email: email!,
+              idToken: userIdToken,
+            })
+          );
         } catch (error: unknown) {
           setErrorMessage((error as Error).message);
         }
