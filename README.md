@@ -1,30 +1,17 @@
-# React + TypeScript + Vite
+# AI-Netflix
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a miniature clone of Netflix that lists and provides details of movies and also enhanced with AI for providing movie suggestions.
 
-Currently, two official plugins are available:
+- This is the Front-end application
+- Check it out: [netflix-gpt6.web.app](https://netflix-gpt6.web.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tools and Frameworks Used:
 
-## Expanding the ESLint configuration
+- React + Vite
+- Tailwind CSS
+- Firebase: Authentication and Hosting
+- AI-Netflix-API: Backend service - [github.com/nabeel001/AI-Netflix-API](https://github.com/nabeel001/AI-Netflix-API)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Screenshots
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+![image](https://github.com/user-attachments/assets/a40a13ef-4b79-46a9-9564-d240c3fbed5b)
